@@ -1,4 +1,4 @@
-package com.clamos.io.task.dto;
+package com.clamos.io.task.model.dto;
 
 import lombok.Data;
 
@@ -7,8 +7,8 @@ public class DataBaseDTO {
     String host;
     String port;
     String dbName;
-    String user;
-    String password;
+    String dbUser;
+    String dbPassword;
     String dbType;
     String url;
 }

@@ -1,7 +1,7 @@
-package com.clamos.io.task.advice;
+package com.clamos.io.task.component;
 
 import com.clamos.io.task.exception.APIException;
-import com.clamos.io.task.vo.ResultVO;
+import com.clamos.io.task.model.vo.ResultVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

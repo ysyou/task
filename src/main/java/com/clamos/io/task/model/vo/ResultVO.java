@@ -1,4 +1,4 @@
-package com.clamos.io.task.vo;
+package com.clamos.io.task.model.vo;
 
 import com.clamos.io.task.exception.ErrorCode;
 import lombok.AllArgsConstructor;

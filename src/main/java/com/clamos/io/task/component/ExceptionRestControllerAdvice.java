@@ -1,7 +1,7 @@
-package com.clamos.io.task.advice;
+package com.clamos.io.task.component;
 
 import com.clamos.io.task.exception.ErrorCode;
-import com.clamos.io.task.vo.ResultVO;
+import com.clamos.io.task.model.vo.ResultVO;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;

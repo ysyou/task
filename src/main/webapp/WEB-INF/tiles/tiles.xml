@@ -9,5 +9,4 @@
     <definition name ="*/*" extends="base">
         <put-attribute name="contents" value="/WEB-INF/views/{1}/{2}.jsp"/>
     </definition>
-
 </tiles-definitions>

@@ -6,4 +6,6 @@ public final class Constant {
     public static final String SQLSERVER = "sqlserver";
     public static final String MONGO = "mongo";
     public static final String ORACLE = "oracle";
+
+    public static final int SHORT_ID_LENGTH = 6;
 }

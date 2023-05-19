@@ -1,4 +1,4 @@
-package com.clamos.io.task.dto;
+package com.clamos.io.task.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

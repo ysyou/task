@@ -1,9 +1,24 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <script>
     function createSource(source){
         const form = document.createElement('form')
-        form.setAttribute('method','get');
+        const objs = document.createElement('input');
+        const type = document.createElement('input');
+        objs.setAttribute('type', 'hidden');
+        objs.setAttribute('name', 'pipeLineId');
+        objs.setAttribute('value', '${pipeLineId}');
+
+        type.setAttribute('type', 'hidden');
+        type.setAttribute('name', 'type');
+        type.setAttribute('value', 'collect');
+
+        form.setAttribute('method','post');
+        form.appendChild(objs);
+        form.appendChild(type);
         form.setAttribute('action', "/source/" + source);
+
+
         document.body.appendChild(form);
         form.submit();
     }
@@ -16,20 +31,25 @@
                 <div class="card-header">
                     <a href="javascript:history.back()">이전</a>
                     <div>
-                        <ul class="nav nav-underline-active-primary mb-3 justify-content-between" id="pills-tab16" role="tablist" style="height: 15px;">
+                        <ul class="nav nav-underline-active-primary mb-3 justify-content-between" id="pills-tab16"
+                            role="tablist" style="height: 15px;">
                             <li class="nav-item">
-                                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#nav-home-underline-primary" role="tab"
-                                   aria-controls="nav-tabs" aria-selected="true">   소스 구성</a>
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> 파이프라인 정보 입력</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link disabled" id="nav-profile-tab" data-toggle="pill" href="#nav-profile-underline-primary" role="tab"
-                                   aria-controls="nav-profile" aria-selected="false">개체 선택</a>
+                                <a class="nav-link active" href="#" tabindex="-1" aria-disabled="true">수집 선택</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">대상 구성</a>
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">수집 대상 구성</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">최종 설정</a>
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">데이터 가공</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">저장 선택</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">최종 저장</a>
                             </li>
                         </ul>
                     </div>

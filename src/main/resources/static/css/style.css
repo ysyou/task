@@ -17447,4 +17447,7 @@ html[dir=rtl] .sidebar li > a .caret:before {
 .copyright p {
   font-weight: 500;
 }
+* {
+  user-select: none;
+}
 /*# sourceMappingURL=style.css.map */

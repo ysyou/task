@@ -3,7 +3,7 @@
     function createPipeLine() {
         const form = document.createElement('form')
         form.setAttribute('method','get');
-        form.setAttribute('action', "/pipeLine");
+        form.setAttribute('action', "/pipeLine/info");
         document.body.appendChild(form);
         form.submit();
     }

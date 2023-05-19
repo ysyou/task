@@ -16,7 +16,7 @@
 
 
                 <li class="active">
-                    <a class="sidenav-item-link" href="/pipeLine/list">
+                    <a class="sidenav-item-link" href="/pipeLine">
                         <i class="mdi mdi-briefcase-account-outline"></i>
                         <span class="nav-text">파이프라인</span>
                     </a>

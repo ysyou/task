@@ -1,27 +1,47 @@
 package com.clamos.io.task.controller;
 
-import com.clamos.io.task.service.CollectService;
+import com.clamos.io.task.model.dto.PipeLineDTO;
+import com.clamos.io.task.model.entity.PipeLineEntity;
+import com.clamos.io.task.service.CommonService;
+import com.clamos.io.task.service.PipeLineService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Controller
 @RequestMapping("/pipeLine")
 @RequiredArgsConstructor
 public class PipeLineController {
-    final CollectService collectService;
+    final ObjectMapper objectMapper;
+    final PipeLineService pipeLineService;
+    final CommonService commonService;
 
-    @GetMapping("/list")
+    @GetMapping
     public String main(){
         return "pipeline/index";
     }
-    @GetMapping("")
-    public String regist(){
-        return "pipeline/source";
+
+    @GetMapping("/info")
+    public String info(){
+        return "pipeline/pipeInfo";
     }
+
+    @PostMapping
+    public String save(PipeLineDTO pipeLineDTO, HttpServletRequest request) throws Exception {
+        PipeLineEntity pipeLineEntity = objectMapper.readValue(objectMapper.writeValueAsString(pipeLineDTO), PipeLineEntity.class);
+        String pipeLineId = pipeLineService.initialSave(pipeLineEntity);
+        request.setAttribute("pipeLineId",pipeLineId);
+        return "collect/collect";
+    }
+
+
 //    @ResponseBody
 //    @PostMapping("/regist/db")
 //    public void regist(){
