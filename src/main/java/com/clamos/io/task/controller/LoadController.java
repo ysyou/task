@@ -7,7 +7,9 @@ import com.clamos.io.task.model.entity.CollectEntity;
 import com.clamos.io.task.model.entity.DataInfoEntity;
 import com.clamos.io.task.model.entity.LoadEntity;
 import com.clamos.io.task.model.entity.SourceEntity;
+import com.clamos.io.task.model.vo.LoadVO;
 import com.clamos.io.task.service.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,33 +31,32 @@ public class LoadController {
     final LoadService loadService;
     final FeginService feginService;
     final DataInfoService dataInfoService;
+    final ObjectMapper objectMapper;
+    final CommonService commonService;
 
-
-    @PostMapping("/{target}")
-    public String target(@PathVariable("target") String target, @RequestParam String pipelineId, HttpServletRequest req){
-        SourceEntity sourceEntity =  sourceService.findBySourceName(target);
-        req.setAttribute("sourceEntity", sourceEntity);
-        req.setAttribute("pipelineId",pipelineId);
-        return "load/targetInfo";
-    }
     @PostMapping("/connection")
     @ResponseBody
     public Map connection(@RequestBody LoadDTO loadDTO){
         Map result = new HashMap<>();
+
         ResultDTO resultDTO= feginService.loadDbConnection(loadDTO);
-        if (Objects.equals(resultDTO.getCode(), 0)) {
-            LoadEntity loadEntity = loadService.initialSave(loadDTO);
-            List<DataInfoEntity> dataInfoEntitys = dataInfoService.findByPipeLineId(loadDTO.getPipelineId());
-            result.put("loadEntity", loadEntity);
-            result.put("dataInfoEntitys", dataInfoEntitys);
-        }
-        result.put("resultDto", resultDTO);
+
+        LoadEntity loadEntity = loadService.initialSave(loadDTO);
+
+        LoadVO loadVO = loadService.makeVO(resultDTO, loadEntity);
+
+        result.put("loadVO", loadVO);
         return result;
     }
 
-    @PostMapping
-    public void save (){
-        log.info("test여기옴?");
+    @PostMapping("/prefix")
+    public String prefix(
+                         @RequestParam String load,
+                         HttpServletRequest req
+    ) throws Exception {
+        //데이터 가져와야되는데
+        LoadVO loadVO = objectMapper.readValue(load, LoadVO.class);
+        req.setAttribute("loadVO", loadVO);
+        return "load/prefix";
     }
-
 }

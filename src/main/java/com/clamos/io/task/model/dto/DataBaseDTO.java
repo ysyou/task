@@ -9,6 +9,7 @@ public class DataBaseDTO {
     String dbName;
     String dbUser;
     String dbPassword;
-    String dbType;
+    String type;
+    String sourceName;
     String url;
 }

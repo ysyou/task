@@ -21,5 +21,5 @@ public class CollectDTO {
     private Long sourceId;
     private Long schedulerId;
     private String type;
-    private String dbType;
+    private String sourceName;
 }

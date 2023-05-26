@@ -7,7 +7,7 @@
     $(document).ready(function () {
         $("#submit").on('click', function () {
             let obj = new Object();
-            let type = '${sourceEntity.type}';
+            let type = '${sourceVO.type}';
             if(type === type_db){
                 let dbsValid = new Array($("#host"), $("#port"), $("#user"), $("#password"))
                 nullCheck(dbsValid);
@@ -18,35 +18,37 @@
                 obj.dbPassword = $("#password").val();
                 obj.dbName = $("#dbName").val();
                 obj.url = $('#url').val();
-                obj.type = '${sourceEntity.type}';
-                obj.dbType = '${sourceEntity.sourceName}';
+                obj.type = '${sourceVO.type}';
+                obj.sourceName = '${sourceVO.sourceName}';
             }else if(type === type_api){ //추후개발
                 let apisValid = new Array($("#provider"), $("#provide_site"))
                 nullCheck(apisValid);
             }
-            obj.pipelineId = '${pipeLineId}';
-            obj.sourceId = '${sourceEntity.sourceId}';
+            obj.pipelineId = '${sourceVO.pipelineId}';
+            obj.sourceId = '${sourceVO.sourceId}';
+            obj.collectId = $("#collectId").val();
             $.ajax({
                 type: "POST",
                 url: "/collect",
                 data: JSON.stringify(obj),
                 dataType: "JSON",
                 contentType: "application/json;charset=UTF-8",
-                success: function (data) {
+                success: function (resp) {
                     //각기 다른 Controller처리해야됨
-                    switch (data.data.sourceId){
-                        case '6':
+                    console.log(resp);
+                    switch (resp.data.type){
+                        case type_api:
                             console.log('추후개발')
                             break;
-                        case '7': case '8':
+                        case type_api:
                             console.log('추후개발')
                             break;
                         default :
-                            if (data.data.connection) {
+                            if (resp.data.connection) {
                                 let objs = document.createElement('input');
                                 objs.setAttribute('type', 'hidden');
                                 objs.setAttribute('name', 'sourceInfo');
-                                objs.setAttribute('value', JSON.stringify(data.data));
+                                objs.setAttribute('value', JSON.stringify(resp.data));
 
                                 let form = document.createElement('form')
                                 form.appendChild(objs);
@@ -55,7 +57,7 @@
                                 document.body.appendChild(form);
                                 form.submit();
                             }else{
-                                console.log('Exception 처리')
+                                alert('데이터베이스 연결에 실패하였습니다. 관리자에게 문의하세요')
                             }
                             break;
                     }
@@ -67,7 +69,7 @@
         });
         $(".set-url").on('keyup paste', function () { //추후 변경필요
             let val;
-            switch ('${sourceEntity.sourceName}') {
+            switch ('${sourceVO.sourceName}') {
                 case 'mysql':
                     val = 'jdbc:mysql://' + $("#host").val() + ':' + $("#port").val() + '/' + $('#dbName').val();
                     break;
@@ -129,11 +131,11 @@
                 <div class="card-body">
                     <div class="card card-default">
                         <div class="card-header">
-                            <h2 class="mb-5">${sourceEntity.sourceName} 소스 구성</h2>
+                            <h2 class="mb-5">${sourceVO.sourceName} 소스 구성</h2>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <c:if test="${sourceEntity.type eq 'db'}">
+                                <c:if test="${sourceVO.type eq 'db'}">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="host">Host</label>
@@ -161,7 +163,7 @@
                                     </div>
                                 </div>
                             </c:if>
-                            <c:if test="${sourceEntity.type eq 'db' && sourceEntity.sourceName eq 'oracle'}">
+                            <c:if test="${sourceVO.type eq 'db' && sourceVO.sourceName eq 'oracle'}">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="sid">sid</label>
@@ -176,7 +178,7 @@
                                     </div>
                                 </div>
                             </c:if>
-                                <c:if test="${sourceEntity.type eq 'db' && sourceEntity.sourceName eq 'sqlserver'}">
+                                <c:if test="${sourceVO.type eq 'db' && sourceVO.sourceName eq 'sqlserver'}">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="instance">instance</label>
@@ -184,7 +186,7 @@
                                     </div>
                                 </div>
                             </c:if>
-                            <c:if test="${sourceEntity.type eq 'api'}">
+                            <c:if test="${sourceVO.type eq 'api'}">
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="provider">제공기관</label>
@@ -200,7 +202,7 @@
                                 </div>
                             </c:if>
                             </div>
-                            <c:if test="${sourceEntity.type eq 'db'}">
+                            <c:if test="${sourceVO.type eq 'db'}">
                                 <div class="form-group mb-4">
                                     <label for="dbName">DataBase Name</label>
                                     <input type="text" name="dbName" class="form-control set-url" id="dbName">
@@ -210,6 +212,7 @@
                                     <input type="text" name="url" class="form-control" id="url">
                                 </div>
                             </c:if>
+                            <input type="hidden" id="collectId" name="collectId" value="${sourceVO.collectId}">
                             <div class="d-flex justify-content-center mt-6">
                                 <button id="submit" type="button" class="btn btn-primary mb-2 btn-pill">테스트 및 계속
                                 </button>

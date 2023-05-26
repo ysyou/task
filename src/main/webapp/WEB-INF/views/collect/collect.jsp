@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<script src="../static/js/common.js"></script>
 
 <script>
     function createSource(source){
@@ -6,8 +7,8 @@
         const objs = document.createElement('input');
         const type = document.createElement('input');
         objs.setAttribute('type', 'hidden');
-        objs.setAttribute('name', 'pipeLineId');
-        objs.setAttribute('value', '${pipeLineId}');
+        objs.setAttribute('name', 'pipelineId');
+        objs.setAttribute('value', '${pipelineId}');
 
         type.setAttribute('type', 'hidden');
         type.setAttribute('name', 'type');
@@ -29,7 +30,7 @@
         <div class="col-12">
             <div class="card card-default">
                 <div class="card-header">
-                    <a href="javascript:history.back()">이전</a>
+                    <a href="javascript:back('${pipelineId}')">이전</a>
                     <div>
                         <ul class="nav nav-underline-active-primary mb-3 justify-content-between" id="pills-tab16"
                             role="tablist" style="height: 15px;">

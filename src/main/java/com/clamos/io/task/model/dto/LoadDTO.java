@@ -16,7 +16,8 @@ public class LoadDTO {
     private String instance;
     private String param;
     private String pipelineId;
+    private Boolean connection;
     private Long sourceId;
+    private String sourceName;
     private String type;
-    private String dbType;
 }

@@ -16,7 +16,7 @@
         let tables = $("#tables").find('a');
         for (let i = 0; i < tables.length; i++) {
             let table = $(tables[i]).attr('class');
-            if($('input').attr('class',table).is(':checked')){
+            if($('.' + table).is(':checked')){
                 let object = new Object();
                 let columns = new Array();
                 object.schemaName = table;
@@ -34,6 +34,8 @@
         result.schema = array;
         result.collectId ='${sourceInfo.collectId}';
         result.pipelineId ='${sourceInfo.pipelineId}';
+
+        console.log(result);
 
         const form = document.createElement('form')
         const objs = document.createElement('input');
@@ -93,9 +95,7 @@
                                             <li class="d-block mb-4">
                                                 <a class="${tables.key}" href="#" onclick="getColumn(this)">
                                                     <i class="mdi mr-2">
-                                                        <input class="${tables.key}" onchange="checkAll(this)"
-                                                               type="checkbox"
-                                                               checked="checked"/>
+                                                        <input class="${tables.key}" type="checkbox" checked="checked"/>
                                                     </i>
                                                     <c:out value="${tables.key}"/>
                                                 </a>

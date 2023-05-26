@@ -3,7 +3,7 @@
     function createPipeLine() {
         const form = document.createElement('form')
         form.setAttribute('method','get');
-        form.setAttribute('action', "/pipeLine/info");
+        form.setAttribute('action', "/pipeline/info/");
         document.body.appendChild(form);
         form.submit();
     }
@@ -48,7 +48,7 @@
                             <td>Postgresql</td>
                             <td>
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">
                                     </a>
 
@@ -72,7 +72,7 @@
                             <td>Postgresql</td>
                             <td>
                                 <div class="dropdown">
-                                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                    <a class="dropdown-toggle icon-burger-mini" href="#" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">
                                     </a>
 

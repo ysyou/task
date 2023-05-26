@@ -3,15 +3,22 @@
 
 <script>
     function createTarget(target){
-        const form = document.createElement('form')
-        const objs = document.createElement('input');
-        objs.setAttribute('type', 'hidden');
-        objs.setAttribute('name', 'pipelineId');
-        objs.setAttribute('value', '${pipelineId}');
-        console.log('${pipelineId}')
+        let pipelineId = document.createElement('input');
+        pipelineId.setAttribute('type', 'hidden');
+        pipelineId.setAttribute('name', 'pipelineId');
+        pipelineId.setAttribute('value', '${pipelineId}');
+
+        let type = document.createElement('input');
+        type.setAttribute('type', 'hidden');
+        type.setAttribute('name', 'type');
+        type.setAttribute('value', 'load');
+
+
+        let form = document.createElement('form')
         form.setAttribute('method','post');
-        form.appendChild(objs);
-        form.setAttribute('action', "/load/" + target);
+        form.appendChild(pipelineId);
+        form.appendChild(type);
+        form.setAttribute('action', "/source/" + target);
 
 
         document.body.appendChild(form);

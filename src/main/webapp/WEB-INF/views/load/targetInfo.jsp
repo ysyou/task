@@ -7,7 +7,7 @@
     $(document).ready(function () {
         $("#submit").on('click', function () {
             let obj = new Object();
-            let type = '${sourceEntity.type}';
+            let type = '${sourceVO.type}';
 
 
             if(type === type_db){
@@ -20,37 +20,39 @@
                 obj.dbPassword = $("#password").val();
                 obj.dbName = $("#dbName").val();
                 obj.url = $('#url').val();
-                obj.type = '${sourceEntity.type}';
-                obj.dbType = '${sourceEntity.sourceName}';
+                obj.type = '${sourceVO.type}';
+                obj.sourceName = '${sourceVO.sourceName}';
             }else if(type === type_api){
                 let apisValid = new Array($("#provider"), $("#provide_site"))
                 nullCheck(apisValid);
             }
 
-            obj.pipelineId = '${pipelineId}';
-            obj.sourceId = '${sourceEntity.sourceId}';
-
+            obj.pipelineId = '${sourceVO.pipelineId}';
+            obj.sourceId = '${sourceVO.sourceId}';
+            obj.loadId = '${sourceVO.loadId}'
             $.ajax({
                 type: "POST",
                 url: "/load/connection",
                 data: JSON.stringify(obj),
                 dataType: "JSON",
                 contentType: "application/json;charset=UTF-8",
-                success: function (data) {
-                    console.log(data.data.resultDto.data.connection)
-                    if (data.data.resultDto.data.connection) {
-                        // let objs = document.createElement('input');
-                        // objs.setAttribute('type', 'hidden');
-                        // objs.setAttribute('name', 'sourceInfo');
-                        // objs.setAttribute('value', JSON.stringify(data.data));
+                success: function (resp) {
+                    console.log(resp.data.loadVO)
+                    if (resp.data.loadVO.connection) {
+                        let load = document.createElement('input');
+                        load.setAttribute('type', 'hidden');
+                        load.setAttribute('name', 'load');
+                        load.setAttribute('value', JSON.stringify(resp.data.loadVO));
 
                         let form = document.createElement('form')
                         form.setAttribute('method', 'post');
-                        form.setAttribute('action', "/load");
+                        form.setAttribute('action', "/load/prefix");
+                        form.appendChild(load);
                         document.body.appendChild(form);
                         form.submit();
                     }else{
                         //디비접속 에러처리
+                        alert('연결에 실패하였습니다. 관리자에게 문의하세요')
                     }
 
                 },
@@ -61,7 +63,7 @@
         });
         $(".set-url").on('keyup paste', function () { //추후 변경필요
             let val;
-            switch ('${sourceEntity.sourceName}') {
+            switch ('${sourceVO.sourceName}') {
                 case 'mysql':
                     val = 'jdbc:mysql://' + $("#host").val() + ':' + $("#port").val() + '/' + $('#dbName').val();
                     break;
@@ -123,11 +125,11 @@
                 <div class="card-body">
                     <div class="card card-default">
                         <div class="card-header">
-                            <h2 class="mb-5">${sourceEntity.sourceName} 소스 구성</h2>
+                            <h2 class="mb-5">${sourceVO.sourceName} 소스 구성</h2>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <c:if test="${sourceEntity.type eq 'db'}">
+                                <c:if test="${sourceVO.type eq 'db'}">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="host">Host</label>
@@ -155,7 +157,7 @@
                                         </div>
                                     </div>
                                 </c:if>
-                                <c:if test="${sourceEntity.type eq 'db' && sourceEntity.sourceName eq 'oracle'}">
+                                <c:if test="${sourceVO.type eq 'db' && sourceVO.sourceName eq 'oracle'}">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="sid">sid</label>
@@ -170,7 +172,7 @@
                                         </div>
                                     </div>
                                 </c:if>
-                                <c:if test="${sourceEntity.type eq 'db' && sourceEntity.sourceName eq 'sqlserver'}">
+                                <c:if test="${sourceVO.type eq 'db' && sourceVO.sourceName eq 'sqlserver'}">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="instance">instance</label>
@@ -178,7 +180,7 @@
                                         </div>
                                     </div>
                                 </c:if>
-                                <c:if test="${sourceEntity.type eq 'api'}">
+                                <c:if test="${sourceVO.type eq 'api'}">
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="provider">제공기관</label>
@@ -194,7 +196,7 @@
                                     </div>
                                 </c:if>
                             </div>
-                            <c:if test="${sourceEntity.type eq 'db'}">
+                            <c:if test="${sourceVO.type eq 'db'}">
                                 <div class="form-group mb-4">
                                     <label for="dbName">DataBase Name</label>
                                     <input type="text" name="dbName" class="form-control set-url" id="dbName">

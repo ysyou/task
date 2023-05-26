@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<script src="../static/plugins/jquery/jquery.min.js"></script>
-<script src="../static/js/common.js"></script>
+<script src="/static/plugins/jquery/jquery.min.js"></script>
+<script src="/static/js/common.js"></script>
 
 <div class="content">
     <!-- Table Product -->
@@ -32,7 +32,7 @@
                             </li>
                         </ul>
                     </div>
-                    <button onclick="javascript:location.href='/pipeLine'" type="button" class="close"
+                    <button onclick="javascript:location.href='/pipeline'" type="button" class="close"
                             data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -43,16 +43,16 @@
                             <h2 class="mb-5">파이프라인 정보</h2>
                         </div>
                         <div class="card-body">
-                            <form action="/pipeLine" method="post">
+                            <form action="/pipeline" method="post">
                                 <div class="form-group mb-4">
                                     <label for="name">파이프라인 명</label>
-                                    <input type="text" name="name" class="form-control set-url" id="name" required>
+                                    <input type="text" name="name" value="${pipelineVO.name}" class="form-control set-url" id="name" required>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label for="engName">파이프라인 영어 명</label>
-                                    <input type="text" name="engName" class="form-control" id="engName" required>
+                                    <input type="text" name="engName" value="${pipelineVO.engName}" class="form-control" id="engName" required>
                                 </div>
-
+                                <input type="hidden" name="pipelineId" value="${pipelineVO.pipelineId}">
                                 <div class="d-flex justify-content-center mt-6">
                                     <button id="submit" type="submit" class="btn btn-primary mb-2 btn-pill">다음</button>
                                 </div>

@@ -21,12 +21,12 @@ public class PipeLineEntity {
     @Column
     String engName;
     @Column
-    Integer level;
-    @Column
     String status;
     @Column
     Date createDate;
     @Column
     Date updateDate;
+    @Column
+    String levelId;
 
 }
