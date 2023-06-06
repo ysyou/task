@@ -6,5 +6,4 @@ import lombok.Data;
 public class PipeLineDTO {
     private String pipelineId;
     private String name;
-    private String engName;
 }

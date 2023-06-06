@@ -19,8 +19,6 @@ public class PipeLineEntity {
     @Column
     String name;
     @Column
-    String engName;
-    @Column
     String status;
     @Column
     Date createDate;

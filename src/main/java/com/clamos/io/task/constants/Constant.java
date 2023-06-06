@@ -16,4 +16,8 @@ public final class Constant {
     public static final String DONE = "hLO2Cu";
 
 
+    public static final Integer page = 0;
+    public static final Integer size = 5;
+
+
 }

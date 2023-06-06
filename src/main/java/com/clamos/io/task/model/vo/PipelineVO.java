@@ -10,7 +10,6 @@ import java.util.Date;
 public class PipelineVO {
     private String pipelineId;
     private String name;
-    private String engName;
     private String status;
     private Date createDate;
     private Date updateDate;

@@ -34,7 +34,6 @@ public class CollectVO {
     private Long schedulerId;
     
     private Long keyId;
-    private Boolean connection;
     private Long sourceId;
     private String sourceName;
     private String type;

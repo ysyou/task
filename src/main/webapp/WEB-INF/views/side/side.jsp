@@ -5,7 +5,7 @@
         <!-- Aplication Brand -->
         <div class="app-brand">
             <a href="/index.html">
-                <img src="../static/images/logo.png" alt="Mono">
+                <img src="/static/images/logo.png" alt="Mono">
                 <span class="brand-name">MONO</span>
             </a>
         </div>

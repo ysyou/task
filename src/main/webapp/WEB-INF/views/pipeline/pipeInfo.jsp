@@ -48,10 +48,6 @@
                                     <label for="name">파이프라인 명</label>
                                     <input type="text" name="name" value="${pipelineVO.name}" class="form-control set-url" id="name" required>
                                 </div>
-                                <div class="form-group mb-4">
-                                    <label for="engName">파이프라인 영어 명</label>
-                                    <input type="text" name="engName" value="${pipelineVO.engName}" class="form-control" id="engName" required>
-                                </div>
                                 <input type="hidden" name="pipelineId" value="${pipelineVO.pipelineId}">
                                 <div class="d-flex justify-content-center mt-6">
                                     <button id="submit" type="submit" class="btn btn-primary mb-2 btn-pill">다음</button>

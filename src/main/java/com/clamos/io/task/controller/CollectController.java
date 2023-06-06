@@ -7,6 +7,7 @@ import com.clamos.io.task.model.entity.CollectEntity;
 import com.clamos.io.task.model.vo.CollectVO;
 import com.clamos.io.task.service.CollectFeignService;
 import com.clamos.io.task.service.CollectService;
+import com.clamos.io.task.service.CommonService;
 import com.clamos.io.task.service.FeginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/collect")
 @RequiredArgsConstructor
 public class CollectController {
@@ -27,21 +29,38 @@ public class CollectController {
     final CollectService collectService;
     final ObjectMapper objectMapper;
     final FeginService feginService;
-    @PostMapping
-    @ResponseBody
-    public CollectVO connection(@RequestBody CollectDTO collectDTO) throws Exception{
-        ResultDTO resultDTO = feginService.collectDBConnection(collectDTO);
-        CollectEntity collectEntity = collectService.initialSave(collectDTO);
-        CollectVO collectVO = collectService.makeVO(collectEntity,resultDTO);
+    final CommonService commonService;
+
+    @GetMapping("/{collectId}")
+    public CollectVO view(@PathVariable String collectId) throws Exception {
+        CollectEntity collect = collectService.find(collectId);
+        CollectVO collectVO= collectService.makeVO(collect);
         return collectVO;
     }
-    @PostMapping("/object")
-    public String object(@RequestParam String sourceInfo, HttpServletRequest request) throws Exception {
-        DataBaseDTO dataBaseDTO = objectMapper.readValue(sourceInfo, DataBaseDTO.class);
-        ResultDTO<Map<String, Object>> mapResultDTO = collectFeignService.addDataSource(dataBaseDTO);
-        request.setAttribute("object", mapResultDTO.getData());
-        request.setAttribute("sourceInfo", objectMapper.readValue(sourceInfo, Map.class));
-        return "collect/object";
+
+    @PostMapping
+    public CollectVO save(@RequestBody CollectDTO collectDTO){
+        CollectEntity collectEntity = objectMapper.convertValue(collectDTO, CollectEntity.class);
+        collectEntity.setCollectId(commonService.getUUID());
+
+        CollectEntity save = collectService.save(collectEntity);
+        CollectVO collectVO = objectMapper.convertValue(save, CollectVO.class);
+        return collectVO;
     }
+
+    @PutMapping
+    public CollectVO update(@RequestBody CollectDTO collectDTO){
+        CollectEntity collectEntity = objectMapper.convertValue(collectDTO, CollectEntity.class);
+        CollectEntity update = collectService.update(collectEntity);
+        CollectVO collectVO = objectMapper.convertValue(update, CollectVO.class);
+        return collectVO;
+    }
+
+    @PostMapping("/connection")
+    public Boolean connection(@RequestBody CollectDTO collectDTO){
+        ResultDTO<LinkedHashMap> resultDTO = feginService.collectDBConnection(collectDTO);
+        return (Boolean) resultDTO.getData().get("connection");
+    }
+
 
 }
